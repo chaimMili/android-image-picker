@@ -4,5 +4,10 @@ import android.widget.ImageView
 import com.esafirm.imagepicker.model.Image
 
 interface ImageLoader {
-    fun loadImage(image: Image, imageView: ImageView, imageType: ImageType)
+    fun loadImage(
+        image: Image,
+        imageView: ImageView,
+        imageType: ImageType,
+        onSuccess: (Boolean) -> Unit = {}
+    )
 }

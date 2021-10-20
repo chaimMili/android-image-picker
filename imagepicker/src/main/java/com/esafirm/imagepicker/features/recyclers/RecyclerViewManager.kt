@@ -82,7 +82,7 @@ class RecyclerViewManager(
         /* Init folder and image adapter */
         val imageLoader = ImagePickerComponentsHolder.imageLoader
         imageAdapter = ImagePickerAdapter(
-            context, imageLoader, selectedImages
+            context, config, imageLoader, selectedImages
                 ?: emptyList(), onImageClick
         )
         folderAdapter = FolderPickerAdapter(context, imageLoader) {

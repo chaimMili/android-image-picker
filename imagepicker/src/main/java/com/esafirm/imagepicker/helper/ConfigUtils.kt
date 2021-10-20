@@ -10,9 +10,11 @@ import com.esafirm.imagepicker.features.common.BaseConfig
 
 object ConfigUtils {
     fun checkConfig(config: ImagePickerConfig): ImagePickerConfig {
-        check(!(config.mode != ImagePickerMode.SINGLE
-            && (config.returnMode === ReturnMode.GALLERY_ONLY
-            || config.returnMode === ReturnMode.ALL))) { "ReturnMode.GALLERY_ONLY and ReturnMode.ALL is only applicable in Single Mode!" }
+        check(
+            !(config.mode != ImagePickerMode.SINGLE
+                    && (config.returnMode === ReturnMode.GALLERY_ONLY
+                    || config.returnMode === ReturnMode.ALL))
+        ) { "ReturnMode.GALLERY_ONLY and ReturnMode.ALL is only applicable in Single Mode!" }
         return config
     }
 
@@ -39,5 +41,10 @@ object ConfigUtils {
     fun getDoneButtonText(context: Context, config: ImagePickerConfig): String {
         val doneButtonText = config.doneButtonText
         return if (doneButtonText.isNullOrBlank()) context.getString(R.string.ef_done) else doneButtonText
+    }
+
+    fun getInactiveClickMessage(context: Context, config: ImagePickerConfig?): String {
+        val inactiveClickedMessage = config?.inactiveImageClickedMessage
+        return if (inactiveClickedMessage.isNullOrBlank()) context.getString(R.string.ef_inactive_clicked_message) else inactiveClickedMessage
     }
 }

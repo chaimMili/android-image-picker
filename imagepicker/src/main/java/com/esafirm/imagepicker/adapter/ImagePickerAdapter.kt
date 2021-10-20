@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.esafirm.imagepicker.R
 import com.esafirm.imagepicker.adapter.ImagePickerAdapter.ImageViewHolder
+import com.esafirm.imagepicker.features.ImagePickerConfig
 import com.esafirm.imagepicker.features.imageloader.ImageLoader
 import com.esafirm.imagepicker.features.imageloader.ImageType
+import com.esafirm.imagepicker.helper.ConfigUtils.getInactiveClickMessage
 import com.esafirm.imagepicker.helper.ImagePickerUtils
 import com.esafirm.imagepicker.helper.diff.SimpleDiffUtilCallBack
 import com.esafirm.imagepicker.listeners.OnImageClickListener
@@ -25,10 +28,11 @@ import java.util.HashMap
 
 class ImagePickerAdapter(
     context: Context,
+    config: ImagePickerConfig,
     imageLoader: ImageLoader,
     selectedImages: List<Image>,
     private val itemClickListener: OnImageClickListener
-) : BaseListAdapter<ImageViewHolder>(context, imageLoader) {
+) : BaseListAdapter<ImageViewHolder>(context, imageLoader, config) {
 
     private val listDiffer by lazy {
         AsyncListDiffer<Image>(this, SimpleDiffUtilCallBack())
@@ -58,7 +62,9 @@ class ImagePickerAdapter(
         val image = getItem(position) ?: return
 
         val isSelected = isSelected(image)
-        imageLoader.loadImage(image, viewHolder.imageView, ImageType.GALLERY)
+        imageLoader.loadImage(image, viewHolder.imageView, ImageType.GALLERY) {
+            viewHolder.container?.isActivated = it
+        }
 
         var showFileTypeIndicator = false
         var fileTypeLabel: String? = ""
@@ -86,6 +92,16 @@ class ImagePickerAdapter(
             fileTypeIndicator.visibility = if (showFileTypeIndicator) View.VISIBLE else View.GONE
             alphaView.alpha = if (isSelected) 0.5f else 0f
             itemView.setOnClickListener {
+
+                if (container?.isActivated == false) {
+                    Toast.makeText(
+                        context,
+                        getInactiveClickMessage(context, config),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
                 val shouldSelect = itemClickListener(isSelected)
 
                 if (isSelected) {
