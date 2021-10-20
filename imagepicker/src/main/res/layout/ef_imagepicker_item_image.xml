@@ -17,14 +17,14 @@
         android:id="@+id/view_alpha"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"/>
+        android:background="@android:color/black"/>
 
     <TextView
         android:id="@+id/ef_item_file_type_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/ef_black_alpha_aa"
+        android:background="@color/ef_black_alpha_50"
         android:paddingBottom="@dimen/ef_spacing_half"
         android:paddingLeft="@dimen/ef_spacing_double"
         android:paddingRight="@dimen/ef_spacing_double"

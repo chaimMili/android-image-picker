@@ -90,7 +90,7 @@ class ImagePickerAdapter(
         viewHolder.apply {
             fileTypeIndicator.text = fileTypeLabel
             fileTypeIndicator.visibility = if (showFileTypeIndicator) View.VISIBLE else View.GONE
-            alphaView.alpha = if (isSelected) 0.5f else 0f
+            alphaView.alpha = if (isSelected) 0.3f else 0f
             itemView.setOnClickListener {
 
                 if (container?.isActivated == false) {
@@ -112,7 +112,7 @@ class ImagePickerAdapter(
             }
             container?.foreground = if (isSelected) ContextCompat.getDrawable(
                 context,
-                R.drawable.ef_ic_done_white
+                R.drawable.ef_baseline_check
             ) else null
         }
     }
